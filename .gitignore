@@ -1,0 +1,6 @@
+java_files/*
+!java_files/lib
+!java_files/test_cases
+
+.idea/
+**/.DS_Store
