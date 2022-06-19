@@ -4,3 +4,5 @@ java_files/*
 
 .idea/
 **/.DS_Store
+
+venv
