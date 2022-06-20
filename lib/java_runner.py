@@ -34,7 +34,7 @@ class JavaRunner:
         self.filename = filename
         self.test_filename = "JUnit{}Test".format(filename)
         try:
-            pack_name = "{}".format(self.user_directory, filename)
+            pack_name = "{}".format(self.user_directory)
             fc = FileCreator(filename=self.filename, package_name=pack_name, user_dir=self.user_directory,
                              code=self.code)
             fc.create_file()
@@ -78,7 +78,7 @@ class JavaRunner:
         run_compile_test = "cd java_files && javac -cp .:{0}:{1} {2}/{3}.java".\
             format(junit_file, hamcrest_file, self.user_directory, self.test_filename)
         run_test_command = "cd java_files && java -cp .:{0}:{1}:{2}/{3} org.junit.runner.JUnitCore {2}.{3}".\
-            format(junit_file, hamcrest_file, self.user_directory, self.test_filename)
+            format(junit_file, hamcrest_file, self.user_directory, self.test_filename) #
 
         try:
             output = subprocess.run(run_compile_test, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -105,6 +105,7 @@ class JavaRunner:
         final_output = self.run_file()
 
         test_output = None
+        point = 0
 
         if final_output.returncode == 1:
             java = final_output.stderr.decode("utf-8")
@@ -114,12 +115,20 @@ class JavaRunner:
             o = self.run_test()
             if o.returncode == 0:
                 test_output = o.stdout.decode("utf-8")
+
+                matcher = r'(OK \(\d+ test\))'
+                ok_matcher = re.compile(matcher)
+                res = ok_matcher.search(test_output)
+
+                # add point of found OK (<int> test)
+                point = len(res.groups()) * 10
             else:
                 test_output = o.stderr.decode("utf-8") or o.stdout.decode("utf-8")
 
         output = {
             "java": java,
-            "test_output": test_output
+            "test_output": test_output,
+            "point": point
         }
 
         return output

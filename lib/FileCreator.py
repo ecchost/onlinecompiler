@@ -15,9 +15,7 @@ class FileCreator:
         self.destination = "{}/{}/".format(self.__main_dir, user_dir)
         self.code = code
 
-
     def create_file(self):
-
         des = self.destination
         dest_file = "{}/{}.java".format(des, self.filename)
 
@@ -35,7 +33,7 @@ class FileCreator:
 
         # test file name base on class name of write code by user
 
-        test_filename = "JUnit{}Test".format(self.filename)
+        test_filename = "JUnit{}Test".format(self.filename) # JUnitHelloWorldTest.java
         fdir = "java_files/test_cases/{}".format(test_filename)
 
         test_file = open("{}.java.txt".format(fdir), "r+")
