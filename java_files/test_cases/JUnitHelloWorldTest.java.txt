@@ -24,6 +24,6 @@ public class JUnitHelloWorldTest {
   @Test
   public void isHelloWorld() {
     {{user_package}}.HelloWorld.main(null);
-    assertEquals("Is Hello World", "Hello World!", outputStream.toString());
+    assertEquals("Is Hello World not same", "Hello World!", outputStream.toString());
   }
 }

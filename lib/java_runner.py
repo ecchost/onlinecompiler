@@ -58,7 +58,7 @@ class JavaRunner:
         return output
 
     def run_file(self):
-        run_command = "cd java_files && java --version && java -cp .:{0}/{1} {0}.{1}".format(self.user_directory, self.filename)
+        run_command = "cd java_files && java --version && java -cp .;{0}/{1} {0}.{1}".format(self.user_directory, self.filename)
         try:
             output = subprocess.run(run_command, shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
@@ -75,9 +75,9 @@ class JavaRunner:
         junit_file = "lib/junit-4.13.2.jar"
         hamcrest_file = "lib/hamcrest-core-1.3.jar"
 
-        run_compile_test = "cd java_files && javac -cp .:{0}:{1} {2}/{3}.java".\
+        run_compile_test = "cd java_files && javac -cp .;{0};{1} {2}/{3}.java".\
             format(junit_file, hamcrest_file, self.user_directory, self.test_filename)
-        run_test_command = "cd java_files && java -cp .:{0}:{1}:{2}/{3} org.junit.runner.JUnitCore {2}.{3}".\
+        run_test_command = "cd java_files && java -cp .;{0};{1};{2}/{3} org.junit.runner.JUnitCore {2}.{3}".\
             format(junit_file, hamcrest_file, self.user_directory, self.test_filename) #
 
         try:
